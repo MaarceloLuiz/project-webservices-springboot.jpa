@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,8 @@ public class User implements Serializable{
 	private String phone;
 	private String password;
 	
+	//'JsonIgnore' is necessary otherwise we are going to have an infinite loop of orders and users
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
@@ -80,7 +84,7 @@ public class User implements Serializable{
 		this.password = password;
 	}
 	
-	//for Collections, we dont create setters, only getters
+	//for Collections, we don't create setters, only getters
 	public List<Order> getOrders() {
 		return orders;
 	}
