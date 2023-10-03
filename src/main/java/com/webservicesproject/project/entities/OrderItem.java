@@ -2,6 +2,7 @@ package com.webservicesproject.project.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webservicesproject.project.entities.pk.OrderItemPK;
 
 import jakarta.persistence.EmbeddedId;
@@ -14,7 +15,7 @@ public class OrderItem implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private OrderItemPK id;
+	private OrderItemPK id = new OrderItemPK();
 	
 	private Integer quantity;
 	private Double price;
@@ -30,6 +31,8 @@ public class OrderItem implements Serializable{
 		this.price = price;
 	}
 	
+	//to prevent the infinite loop. Otherwise when we call the order, it's gonna call the product, which is going to call the order again and so on
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
