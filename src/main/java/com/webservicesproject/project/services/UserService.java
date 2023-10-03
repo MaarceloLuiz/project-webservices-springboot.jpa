@@ -2,8 +2,6 @@ package com.webservicesproject.project.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.ObjDoubleConsumer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +25,9 @@ public class UserService {
 	
 	public User insert(User obj) {
 		return repository.save(obj);
+	}
+	
+	public void delete(Long id) {
+		repository.deleteById(id);
 	}
 }

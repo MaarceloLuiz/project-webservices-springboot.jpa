@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,5 +45,13 @@ public class UserResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		//this is the most appropriate way to insert a resource into the database
 		return ResponseEntity.created(uri).body(obj);
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	//void because it's not returning me any type of body, it is only deleting by Id
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		service.delete(id);
+		//'noContent' will return us an empty answer with '204 No Content' on postman
+		return ResponseEntity.noContent().build();
 	}
 }
