@@ -13,6 +13,8 @@ import com.webservicesproject.project.repositories.UserRepository;
 import com.webservicesproject.project.services.exceptions.DatabaseException;
 import com.webservicesproject.project.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 
@@ -46,9 +48,14 @@ public class UserService {
 	
 	//'id' to find the user, plus the data to be updated
 	public User update(Long id, User obj) {
-		User entity = repository.getReferenceById(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity = repository.getReferenceById(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} 
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(User entity, User obj) {
